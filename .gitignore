@@ -1,0 +1,42 @@
+# Secrets & Environment Variables (CRITICAL - NEVER COMMIT)
+docs/07-DEV-SECRETS.md
+.env
+.env.*
+!.env.example
+
+# Private Backup (if stored inside project root)
+private-backup/
+
+# Local TLS Certificates & Private Keys
+certs/
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+
+# Local Persistent Data & Uploads
+data/
+storage/
+uploads/
+*.sql
+*.dump
+
+# .NET / C# Build Artifacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Node.js / React Frontend
+node_modules/
+dist/
+.vite/
+*.local
+
+# Logs & OS Files
+logs/
+*.log
+.DS_Store
+Thumbs.db
