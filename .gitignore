@@ -1,13 +1,10 @@
-# Secrets & Environment Variables (CRITICAL - NEVER COMMIT)
-docs/07-DEV-SECRETS.md
+# Secrets & Environment Files (CRITICAL - NEVER COMMIT)
 .env
 .env.*
 !.env.example
+docs/07-DEV-SECRETS.md
 
-# Private Backup (if stored inside project root)
-private-backup/
-
-# Local TLS Certificates & Private Keys
+# Local Certificates & Private Keys
 certs/
 *.pem
 *.key
@@ -15,28 +12,32 @@ certs/
 *.pfx
 *.p12
 
-# Local Persistent Data & Uploads
-data/
+# Local Data, Storage & Uploads
 storage/
 uploads/
-*.sql
 *.dump
+*.sql
+*.bak
 
-# .NET / C# Build Artifacts
+# Private Backup Folders (if placed nearby)
+*-backup/
+*private-backup*/
+
+# .NET Build Artifacts & IDE
 bin/
 obj/
+.vs/
 *.user
 *.suo
-.vs/
+*.log
+logs/
 
-# Node.js / React Frontend
+# Node / Frontend Build Artifacts
 node_modules/
 dist/
 .vite/
 *.local
 
-# Logs & OS Files
-logs/
-*.log
+# OS & Temp Files
 .DS_Store
 Thumbs.db

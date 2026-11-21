@@ -53,7 +53,7 @@ All `4xx` and `5xx` error responses return the following JSON envelope:
 | `AUTH_TOKEN_INVALID` | `401` | JWT access token or refresh token is malformed, revoked, or reused |
 | `AUTH_EMAIL_NOT_VERIFIED` | `403` | Account email address has not been verified yet |
 | `AUTH_FORBIDDEN` | `403` | Authenticated user lacks required role permission or organizational scope |
-| `RESOURCE_NOT_FOUND` | `404` | Requested entity (user, base, branch, site, plugin, domain) does not exist or is outside caller scope |
+| `RESOURCE_NOT_FOUND` | `404` | Requested entity (user, base, branch, site, plugin, domain) or route does not exist or is outside caller scope |
 | `RESOURCE_CONFLICT` | `409` | Duplicate unique value (e.g., email, site slug, domain name, or already installed plugin) |
 | `DOMAIN_VERIFICATION_FAILED` | `422` | Custom domain DNS TXT verification check failed |
 | `PLUGIN_CONFIG_INVALID` | `422` | Submitted plugin configuration JSON does not satisfy `PluginConfigSchema` |
@@ -79,14 +79,43 @@ All `4xx` and `5xx` error responses return the following JSON envelope:
 ```
 
 ### 1.7 Rate Limiting, CORS & Custom Domain Headers (`D-009`, `D-011`)
-- **Rate Limiting:** Two-layer enforcement via Nginx `limit_req_zone` and ASP.NET Core `AddRateLimiter` (strict IP sliding window on `/api/v1/auth/*`, per-user fixed window on authenticated `/api/v1/*`). Exceeded limits return HTTP `429` with `RATE_LIMIT_EXCEEDED`.
+- **Rate Limiting:** Two-layer enforcement via Nginx `limit_req_zone` and ASP.NET Core `AddRateLimiter` (strict IP fixed window on `/api/v1/auth/*`, IP/user fixed window on `/api/v1/*`). Exceeded limits return HTTP `429` with `RATE_LIMIT_EXCEEDED`.
 - **CORS:** Configured via environment variables allowing `https://192.168.100.100:50000`, `https://localhost:50000`, and verified custom domains.
 - **Tenant Resolution Headers:** Nginx forwards original `Host` via `X-Forwarded-Host`; clients may also pass `X-Site-Slug` when resolving a site under `/s/{siteSlug}`.
 
 ---
 
 ## 2. ENDPOINTS
-*To be populated at the start of each Phase 1 backend stage (`Stage 001` through `Stage 011`).*
+
+### Foundation-System / Scaffold-Module
+
+#### API-001: GET /api/v1/health
+- **Purpose:** Returns platform API health status, service name, version, environment, and current UTC timestamp.
+- **Feature / Stage:** `F-08` / `Stage 001`
+- **Auth:** `public`
+- **Request:** No headers, path params, query params, or body required.
+- **Success response:** `200 OK`
+  - `status` (`string`): Health status (`"Healthy"`)
+  - `service` (`string`): Service identifier (`"KalateManager.Api"`)
+  - `version` (`string`): Platform version string
+  - `environment` (`string`): Active ASP.NET Core environment (`"Development"` / `"Production"`)
+  - `timestampUtc` (`string`): Current UTC timestamp in ISO 8601 format
+  ```json
+  {
+    "status": "Healthy",
+    "service": "KalateManager.Api",
+    "version": "1.0.0",
+    "environment": "Development",
+    "timestampUtc": "2026-11-21T07:30:00Z"
+  }
+  ```
+- **Errors:**
+  - `429` | `RATE_LIMIT_EXCEEDED` | Client IP exceeded public API rate limit window
+  - `500` | `INTERNAL_SERVER_ERROR` | Unexpected unhandled server error
+- **Notes:** Enforces `PublicApiPolicy` rate limiter (`D-011`). Used by reverse proxy verification and Stage 001 smoke test.
+- **Status:** `IMPLEMENTED`
+- **Test script:** `ai-scripts/Foundation-System-test.ps1`
+- **Used by pages:** *(Infrastructure health check only)*
 
 ---
 
@@ -106,3 +135,4 @@ All `4xx` and `5xx` error responses return the following JSON envelope:
 | Date | Endpoint / Event | What Changed | Breaking (yes/no) | Decision ID | Stage |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 2026-11-21 | Section 1 (`CONVENTIONS`) | Defined REST `/api/v1` conventions, JWT+Refresh auth, UUID v4 + camelCase format, error envelope & initial error codes, and page/pageSize pagination | no | D-016, D-017, D-018 | Stage 000 |
+| 2026-11-21 | `API-001` (`GET /api/v1/health`) | Added public health check endpoint specification (`IMPLEMENTED`) | no | D-011, D-016 | Stage 001 |

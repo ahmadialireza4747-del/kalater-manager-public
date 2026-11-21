@@ -1,4 +1,4 @@
-# ai-scripts/Backup-System-private-restore.ps1
+﻿# ai-scripts/Backup-System-private-restore.ps1
 # Backup-System / PrivateRestore-Module: Restores files from a private backup snapshot into a target directory with overwrite confirmation and database restore warnings.
 
 param(

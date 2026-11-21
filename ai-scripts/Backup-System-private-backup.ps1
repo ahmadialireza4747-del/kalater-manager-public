@@ -1,4 +1,4 @@
-# ai-scripts/Backup-System-private-backup.ps1
+﻿# ai-scripts/Backup-System-private-backup.ps1
 # Backup-System / PrivateBackup-Module: Creates immutable timestamped snapshots of git-ignored secrets, env files, TLS certificates, local volumes, and PostgreSQL dumps.
 
 param(

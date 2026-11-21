@@ -1,9 +1,9 @@
 # Project Stages & Plan
 
 ## 1. CURRENT POSITION
-- **Current Phase:** Phase 1 — Backend (Transitioning from completed Stage 000 Project Setup)
-- **Active System / Module / Stage:** Stage 000 — `Project-Setup` (`000-project-setup`) is `DONE`; awaiting user execution of Stage 000 Git commit/push, initial Private Backup, and Test Restore before starting Stage 001 (`Foundation-System / Scaffold-Module / docker-nginx-api-skeleton`).
-- **NEXT STEP:** Run the Stage 000 Git commands (`000-project-setup`), run `ai-scripts/Backup-System-private-backup.ps1`, run a test restore of that snapshot into a temporary folder using `ai-scripts/Backup-System-private-restore.ps1`, and paste the outputs so Stage 001 can begin.
+- **Current Phase:** Phase 1 — Backend
+- **Active System / Module / Stage:** Stage 001 — `Foundation-System / Scaffold-Module / docker-nginx-api-skeleton` (`PENDING_USER_TEST`). Also delivered UI Design Prompts Batch 1 (`WebApp-System / AuthUI-Module`: `LoginPage` and `RegisterPage`).
+- **NEXT STEP:** Run `ai-scripts/Foundation-System-init-env.ps1`, `ai-scripts/Foundation-System-generate-certs.ps1`, start Docker Compose (`docker compose up -d --build`), and run `ai-scripts/Foundation-System-test.ps1`, then paste the test output.
 
 ## 2. FEATURES
 | ID | Name | Description | Priority | Status |
@@ -15,7 +15,7 @@
 | F-05 | Per-Site Plugin Configuration | Isolated configuration and settings management for each installed plugin/module on a specific site | MUST | DECIDED |
 | F-06 | Custom Domain Mapping | Ability to bind and configure custom domains for user-created sites (Host-header routing in dev; full DNS/TLS in Phase 4) | MUST | DECIDED |
 | F-07 | Security Audit Logs | Automated logging of sensitive actions (role permission changes, plugin installs/removals, site creation, failed logins) | MUST | DECIDED |
-| F-08 | API & Auth Rate Limiting | Request throttling to protect authentication endpoints and APIs against brute-force and abuse | MUST | DECIDED |
+| F-08 | API & Auth Rate Limiting | Request throttling to protect authentication endpoints and APIs against brute-force and abuse | MUST | IN_PROGRESS |
 | F-09 | System Email Notifications | Automated transactional emails for account verification, password resets, invitations, and system alerts via SMTP/Mailpit | MUST | DECIDED |
 | F-10 | In-App Notifications | Notification center inside the dashboard for site, plugin, and role events | MUST | DECIDED |
 | F-11 | Analytics & Overview Dashboard | Summary metrics and health overview of sites, active plugins, users, and recent activity for Super Admin and site managers | MUST | DECIDED |
@@ -60,7 +60,7 @@
   - **Stage 001 — `Foundation-System / Scaffold-Module / docker-nginx-api-skeleton`**
     - **Feature Traceability:** `F-08` (`D-011`), `D-006`, `D-009`, `D-016`, `D-017`, `D-018`
     - **Scope:** Docker Compose stack (PostgreSQL 16.6, Mailpit v1.21.4, ASP.NET Core 8.0 API, React Vite placeholder, Nginx 1.27.3), OpenSSL self-signed TLS script for `192.168.100.100`/`localhost`, Nginx reverse proxy (`50000`/`50001` + edge rate limit + `Host` pass-through), `.env` generation, Serilog logging, global exception/error-code middleware, .NET 8 Rate Limiter, and `/api/v1/health` endpoint + test script.
-    - **Status:** `NOT_STARTED`
+    - **Status:** `PENDING_USER_TEST`
 - **Module 1.2: `CoreInfra-Module`**
   - **Stage 002 — `Foundation-System / CoreInfra-Module / efcore-outbox-audit-base`**
     - **Feature Traceability:** `F-09` (`D-012`), `F-07` (`D-010`), `D-006`
@@ -168,8 +168,8 @@
 ## 5. UI PAGES AND POPUPS
 | System / Module | Page or Popup Name | Purpose | Design Status |
 | :--- | :--- | :--- | :--- |
-| `WebApp-System / AuthUI-Module` | `LoginPage` | Email/password sign-in with theme/language switchers | `PLANNED` |
-| `WebApp-System / AuthUI-Module` | `RegisterPage` | New user registration and verification email trigger | `PLANNED` |
+| `WebApp-System / AuthUI-Module` | `LoginPage` | Email/password sign-in with theme/language switchers | `DESIGN_PROMPTS_DELIVERED` |
+| `WebApp-System / AuthUI-Module` | `RegisterPage` | New user registration and verification email trigger | `DESIGN_PROMPTS_DELIVERED` |
 | `WebApp-System / AuthUI-Module` | `VerifyEmailPage` | Email verification token confirmation screen | `PLANNED` |
 | `WebApp-System / AuthUI-Module` | `ForgotResetPasswordPage` | Password reset request and new password submission | `PLANNED` |
 | `WebApp-System / AuthUI-Module` | `UserProfilePage` | Profile details, password change, language & theme settings | `PLANNED` |
@@ -189,4 +189,4 @@
 ## 6. STAGE BRANCH LOG
 | Branch Number | Branch Name | Stage | Date | Commit Hash | Pushed (yes/no) | Private Backup (yes/no) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 000 | `000-project-setup` | `Stage 000 — Project Setup` | `2026-11-21` | *Pending user commit output* | `pending` | `pending` |
+| 000 | `000-project-setup` | `Stage 000 — Project Setup` | `2026-11-21` | `d7b9fa8` | `yes` | `yes` |
